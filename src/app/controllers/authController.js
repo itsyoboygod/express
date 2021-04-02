@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const mailer = require("../../modules/mailer");
 
+const path = require("path")
+
 const authConfig = require("../../config/auth");
 
 const User = require("../models/User");
@@ -68,7 +70,7 @@ router.post("/forgot_password", async(req, res) => {
                 passwordResetExpiress: now,
             },
         });
-
+            console.log(path.resolve("./src/app/resources/mail"))
         mailer.sendMail({
                 to: email,
                 from: "m.vini.ac@hotmail.com",
@@ -79,7 +81,7 @@ router.post("/forgot_password", async(req, res) => {
                 if (err)
                     return res
                         .status(400)
-                        .send({ error: "Cannot send forgot password email" });
+                        .send({ err });
 
                 return res.send();
             }
